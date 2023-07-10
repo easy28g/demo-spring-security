@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head>
+        <title>Hello World!</title>
+    </head>
+    <body>
+        <div>
+            <form th:action="@{/logout}" th:method="post">
+                <input type="submit" value="Sign Out"/>
+            </form>
+        </div>
+        <div>  
+            <form th:method="post" th:action="@{/main}">
+                <input type="text" name="text" placeholder="Введите сообщение" />
+                <input type="text" name="tag" placeholder="Тэг" />
+                <button type="submit">Добавить</button>
+            </form>
+        </div>
+        <br>
+        <form th:method="post" th:action="@{/filter}">
+            <input type="text" name="filter" placeholder="Введите сообщение" />
+            <button type="submit">Найти</button>
+        </form>
+        <div>Новое сообщение</div>
+        <div th:each="message : ${messages}">
+            <b th:text="${message.id}"></b>
+            <span th:text="${message.text}"></span>
+            <i th:text="${message.tag}"></i>
+        </div>
+    </body>
+</html>
