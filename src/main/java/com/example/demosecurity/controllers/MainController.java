@@ -11,7 +11,7 @@ import com.example.demosecurity.domains.Message;
 import com.example.demosecurity.repos.MessageRepo;
 
 @Controller
-public class GreetingController {
+public class MainController {
 
     @Autowired
     private MessageRepo messageRepo;
