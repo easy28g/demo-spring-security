@@ -48,6 +48,7 @@ public class MainController {
             messages = messageRepo.findAll();
         }
         model.addAttribute("messages", messages);
+        model.addAttribute("filter", filter);
         return "main.html";
     }
     

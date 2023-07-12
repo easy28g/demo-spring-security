@@ -19,7 +19,7 @@
         </div>
         <br>
         <form th:method="post" th:action="@{/filter}">
-            <input type="text" name="filter" placeholder="Введите сообщение" />
+            <input type="text" name="filter" th:value="${filter}" placeholder="Введите сообщение" />
             <button type="submit">Найти</button>
         </form>
         <div>Новое сообщение</div>
