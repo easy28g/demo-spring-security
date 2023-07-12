@@ -9,14 +9,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.example.demosecurity.service.UserService;
+
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+	// @Autowired
+	// private DataSource dataSource;
+	
 	@Autowired
-	private DataSource dataSource;
+	private UserService userService;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -34,12 +39,13 @@ public class WebSecurityConfig {
 
 	@Autowired
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication()
-		.dataSource(dataSource)
-		.passwordEncoder(NoOpPasswordEncoder.getInstance())
-		.usersByUsernameQuery("select username, password, active from usr where username=?")
-		.authoritiesByUsernameQuery("select u.username, ur.roles from usr u inner join user_role ur on u.id = ur.user_id where u.username=?");
-
+		// auth.jdbcAuthentication()
+		// .dataSource(dataSource)
+		// .passwordEncoder(NoOpPasswordEncoder.getInstance())
+		// .usersByUsernameQuery("select username, password, active from usr where username=?")
+		// .authoritiesByUsernameQuery("select u.username, ur.roles from usr u inner join user_role ur on u.id = ur.user_id where u.username=?");
+		auth.userDetailsService(userService)
+			.passwordEncoder(NoOpPasswordEncoder.getInstance());
 	}
 
 }

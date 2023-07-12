@@ -1,11 +1,13 @@
 package com.example.demosecurity.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
+import com.example.demosecurity.domains.User;
 
 import com.example.demosecurity.domains.Message;
 import com.example.demosecurity.repos.MessageRepo;
@@ -29,8 +31,8 @@ public class MainController {
     }
 
     @PostMapping("/main")
-    public String add(@RequestParam String text, @RequestParam String tag, Model model){
-        Message message = new Message(text, tag);
+    public String add(@AuthenticationPrincipal User user, @RequestParam String text, @RequestParam String tag, Model model){
+        Message message = new Message(text, tag, user);
         messageRepo.save(message);
         Iterable<Message> messages = messageRepo.findAll();
         model.addAttribute("messages", messages);
