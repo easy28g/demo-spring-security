@@ -21,7 +21,7 @@ import com.example.demosecurity.repos.UserRepo;
 
 @Controller
 @RequestMapping("/user")
-@PreAuthorize("isAuthenticated()")
+@PreAuthorize("isAuthenticated('ADMIN')")
 public class UserController {
 
     @Autowired

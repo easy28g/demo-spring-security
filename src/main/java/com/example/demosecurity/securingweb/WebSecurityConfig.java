@@ -18,7 +18,6 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
 	// @Autowired
@@ -31,7 +30,8 @@ public class WebSecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.authorizeHttpRequests((requests) -> requests
-						.requestMatchers("/", "/registration").permitAll()
+						.requestMatchers("/user/**").hasAuthority("ADMIN")
+						.requestMatchers("/", "/registration").permitAll() 
 						.anyRequest().authenticated())
 				.formLogin((form) -> form
 						.loginPage("/login")
