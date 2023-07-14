@@ -1,19 +1,27 @@
 package com.example.demosecurity.controllers;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.BeanDefinitionDsl.Role;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demosecurity.domains.Role;
 import com.example.demosecurity.domains.User;
 import com.example.demosecurity.repos.UserRepo;
 
 @Controller
 @RequestMapping("/user")
+@PreAuthorize("isAuthenticated()")
 public class UserController {
 
     @Autowired
@@ -31,6 +39,79 @@ public class UserController {
         model.addAttribute("roles", Role.values());
         
         return "userEdit.html";
+    }
+
+    // @PostMapping
+    // public String userSave(
+    //     @RequestParam String username,
+    //     @RequestParam Map<String, String> form, 
+    //     @RequestParam("userId") User user
+    // ){
+        
+    //     user.setUsername(username);
+
+    //     Set<String> roles = Arrays.stream(Role.values())
+    //         .map(Role::name)
+    //         .collect(Collectors.toSet());
+
+    //     // user.getRoles().clear();
+
+    //     for(String key : form.keySet()){
+    //         if(roles.contains(key)){
+    //             user.getRoles().add(Role.valueOf(key));
+    //         }
+    //     }
+
+    //     userRepo.save(user);
+
+    //     return "redirect:/user";
+    // }
+
+    // @PostMapping
+    // public String saveUser(
+    //     @RequestParam String username,
+    //     @RequestParam Map<String, String> form,
+    //     @RequestParam("userId") Long userId
+    // ) {
+    //     User user;
+    //     if (userId != null) {
+    //         // Изменение существующего пользователя
+    //         user = userRepo.findById(userId)
+    //             .orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + userId));
+    //     } else {
+    //         // Создание нового пользователя
+    //         user = new User();
+    //     }
+
+    //     user.setUsername(username);
+
+    //     Set<String> roles = Arrays.stream(Role.values())
+    //         .map(Role::name)
+    //         .collect(Collectors.toSet());
+
+    //     user.getRoles().clear();
+
+    //     for (String key : form.keySet()) {
+    //         if (roles.contains(key)) {
+    //             user.getRoles().add(Role.valueOf(key));
+    //         }
+    //     }
+
+    //     userRepo.save(user);
+
+    //     return "redirect:/user";
+    // }
+
+    @PostMapping("/{userId}")
+    public String updateUser(@PathVariable("userId") Long userId, @RequestParam String username) {
+        User user = userRepo.findById(userId).orElse(null);
+
+        if (user != null) {
+            user.setUsername(username);
+            userRepo.save(user);
+        }
+
+        return "redirect:/user";
     }
     
 }
