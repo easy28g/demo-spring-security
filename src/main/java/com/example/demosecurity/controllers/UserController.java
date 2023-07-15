@@ -42,32 +42,6 @@ public class UserController {
     }
 
     // @PostMapping
-    // public String userSave(
-    //     @RequestParam String username,
-    //     @RequestParam Map<String, String> form, 
-    //     @RequestParam("userId") User user
-    // ){
-        
-    //     user.setUsername(username);
-
-    //     Set<String> roles = Arrays.stream(Role.values())
-    //         .map(Role::name)
-    //         .collect(Collectors.toSet());
-
-    //     // user.getRoles().clear();
-
-    //     for(String key : form.keySet()){
-    //         if(roles.contains(key)){
-    //             user.getRoles().add(Role.valueOf(key));
-    //         }
-    //     }
-
-    //     userRepo.save(user);
-
-    //     return "redirect:/user";
-    // }
-
-    // @PostMapping
     // public String saveUser(
     //     @RequestParam String username,
     //     @RequestParam Map<String, String> form,
@@ -103,11 +77,25 @@ public class UserController {
     // }
 
     @PostMapping("/{userId}")
-    public String updateUser(@PathVariable("userId") Long userId, @RequestParam String username) {
+    public String updateUser(@PathVariable("userId") Long userId, 
+                            @RequestParam String username, 
+                            @RequestParam Map<String, String> form)
+    {
         User user = userRepo.findById(userId).orElse(null);
 
         if (user != null) {
             user.setUsername(username);
+            Set<String> roles = Arrays.stream(Role.values())
+            .map(Role::name)
+            .collect(Collectors.toSet());
+
+            user.getRoles().clear();
+
+            for(String key : form.keySet()){
+                if(roles.contains(key)){
+                    user.getRoles().add(Role.valueOf(key));
+                }
+            }
             userRepo.save(user);
         }
 
