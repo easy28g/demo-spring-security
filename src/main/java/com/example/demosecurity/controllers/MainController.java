@@ -39,6 +39,7 @@ public class MainController {
         return "main.html";
     }
 
+    //file
     @PostMapping("/main")
     public String add(@AuthenticationPrincipal User user, @RequestParam String text, @RequestParam String tag, Model model,
                       @RequestParam("file") MultipartFile file) throws IOException{

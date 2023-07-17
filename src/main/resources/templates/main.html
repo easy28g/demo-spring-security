@@ -3,39 +3,75 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <head>
         <title>Hello World!</title>
-        <link rel="stylesheet" href="/static/style.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     </head>
     <body>
-        <div>
-            <form th:action="@{/logout}" th:method="post">
-                <input type="submit" value="Sign Out"/>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+              <a class="navbar-brand">Sweater</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/main">Messages</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/user">User List</a>
+                  </li>
+                </ul>
+                <div>
+                    <form th:action="@{/logout}" th:method="post">
+                        <button type="submit" class="btn btn-primary">Sign Out</button>
+                    </form>
+                </div>
+              </div>  
+            </div> 
+        </nav>
+        <div class="container mt-5">
+
+            <form th:method="post" th:action="@{/filter}">
+                <input type="text" name="filter" th:value="${filter}" placeholder="Search" /> 
+                <button class="btn btn-outline-primary" type="submit">Search</button>
             </form>
-            <span><a href="/user">User list</a></span>
-        </div>
-        <div>  
-            <form th:method="post" th:action="@{/main}" enctype="multipart/form-data">
-                <input type="text" name="text" placeholder="Введите сообщение" />
-                <input type="text" name="tag" placeholder="Тэг" />
-                <input type="file" name="file">
-                <button type="submit">Добавить</button>
-            </form>
-        </div>
-        <br>
-        <form th:method="post" th:action="@{/filter}">
-            <input type="text" name="filter" th:value="${filter}" placeholder="Введите сообщение" />
-            <button type="submit">Найти</button>
-        </form>
-        <div>Новое сообщение</div>
-        <div th:each="message : ${messages}">
-            <b th:text="${message.id}"></b>
-            <span th:text="${message.text}"></span>
-            <i th:text="${message.tag}"></i>
-            <strong th:text="${message.authorName}"></strong>
-            <div>
-                <th:block th:if="${message.filename != null}">
-                    <img th:src="@{'/uploads/' + ${message.filename}}" style="height: 150px;"/>
-                </th:block>              
+
+            <div>  
+                <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Add New Message
+                </a> 
+                <div class="collapse" id="collapseExample">               
+                    <form th:method="post" th:action="@{/main}" enctype="multipart/form-data">
+                        <input type="text" name="text" placeholder="New Message" />
+                        <input type="text" name="tag" placeholder="Tag" />
+                        <input type="file" name="file">
+                        <button class="btn btn-outline-primary" type="submit">Add</button>
+                    </form>
+                </div>
             </div>
+            <br>
+            
+            <div th:each="message : ${messages}">
+                <div class="card my-3 col-3">
+                    <div class="card-img-top">
+                        <th:block th:if="${message.filename != null}">
+                            <img th:src="@{'/uploads/' + ${message.filename}}" style="height: 182px;"/>
+                        </th:block>              
+                    </div>
+                    <div class="m-2">
+                        <span th:text="${message.text}"></span>
+                        <i th:text="${message.tag}"></i>
+                    </div>
+                    <div class="card-footer text-muted" th:text="${message.authorName}"></div>
+                </div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
         </div>
     </body>
 </html>
