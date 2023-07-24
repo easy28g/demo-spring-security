@@ -41,41 +41,6 @@ public class UserController {
         return "userEdit.html";
     }
 
-    // @PostMapping
-    // public String saveUser(
-    //     @RequestParam String username,
-    //     @RequestParam Map<String, String> form,
-    //     @RequestParam("userId") Long userId
-    // ) {
-    //     User user;
-    //     if (userId != null) {
-    //         // Изменение существующего пользователя
-    //         user = userRepo.findById(userId)
-    //             .orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + userId));
-    //     } else {
-    //         // Создание нового пользователя
-    //         user = new User();
-    //     }
-
-    //     user.setUsername(username);
-
-    //     Set<String> roles = Arrays.stream(Role.values())
-    //         .map(Role::name)
-    //         .collect(Collectors.toSet());
-
-    //     user.getRoles().clear();
-
-    //     for (String key : form.keySet()) {
-    //         if (roles.contains(key)) {
-    //             user.getRoles().add(Role.valueOf(key));
-    //         }
-    //     }
-
-    //     userRepo.save(user);
-
-    //     return "redirect:/user";
-    // }
-
     @PostMapping("/{userId}")
     public String updateUser(@PathVariable("userId") Long userId, 
                             @RequestParam String username, 

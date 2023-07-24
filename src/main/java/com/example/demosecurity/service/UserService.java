@@ -15,10 +15,6 @@ public class UserService implements UserDetailsService{
     @Autowired
     private UserRepo userRepo;
 
-    // public UserService(UserRepo userRepo){
-    //     this.userRepo = userRepo;
-    // }
-
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepo.findByUsername(username);
     }
