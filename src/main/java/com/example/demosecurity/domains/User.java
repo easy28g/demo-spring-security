@@ -31,7 +31,7 @@ public class User implements UserDetails{
     private boolean active;
 
     private String email;
-    private String activateCode;
+    private String activationCode;
 
 
     @ElementCollection(targetClass=Role.class, fetch=FetchType.EAGER)
@@ -126,11 +126,11 @@ public class User implements UserDetails{
     }
 
     public String getActivateCode() {
-        return this.activateCode;
+        return this.activationCode;
     }
 
-    public void setActivateCode(String activateCode) {
-        this.activateCode = activateCode;
+    public void setActivateCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 
 }

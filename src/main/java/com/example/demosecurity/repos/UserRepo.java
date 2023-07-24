@@ -6,4 +6,5 @@ import com.example.demosecurity.domains.User;
 
 public interface UserRepo extends JpaRepository<User, Long>{
     User findByUsername(String username);
+    User findByActivationCode(String code);
 }
