@@ -17,6 +17,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+
 
 @Entity
 @Table(name = "usr")
@@ -26,10 +31,19 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message = "Username cannot be empty!")
     private String username;
+    @NotBlank(message = "Password cannot be empty!")
     private String password;
+
+    @Transient
+    @NotBlank(message = "Password confirmation cannot be empty!")
+    private String password2;
+
     private boolean active;
 
+    @Email(message = "Email is not correct!")
+    @NotBlank(message = "Email cannot be empty!")
     private String email;
     private String activationCode;
 
@@ -127,6 +141,14 @@ public class User implements UserDetails {
 
     public void setActivateCode(String activationCode) {
         this.activationCode = activationCode;
+    }
+
+    public String getPassword2() {
+        return password2;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
     }
 
 }

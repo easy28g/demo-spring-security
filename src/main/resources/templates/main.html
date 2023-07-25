@@ -47,8 +47,9 @@
                 </a> 
                 <div class="collapse" id="collapseExample">               
                     <form th:method="post" th:action="@{/main}" enctype="multipart/form-data">
-                        <input type="text" name="text" placeholder="New Message" />
-                        <input type="text" name="tag" placeholder="Tag" />
+                        <input type="text" name="text" placeholder="New Message" th:class="${textError != null} ? 'is-invalid' : ''" th:value="${message != null ? message.text : ''}" />
+                        <div class="invalid-feedback" th:if="${textError}" th:text="${textError}"></div>                      
+                        <input type="text" name="tag" placeholder="Tag" th:class="${textError != null} ? 'is-invalid' : ''" th:value="${message != null ? message.tag : ''}"/>
                         <input type="file" name="file">
                         <button class="btn btn-outline-primary" type="submit">Add</button>
                     </form>

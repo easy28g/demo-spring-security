@@ -7,6 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 
 @Entity
 public class Message {
@@ -15,7 +18,11 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @NotBlank(message = "Please fill the message!")
+    @Size(max = 2048, message = "Message too long!")
     private String text;
+    @NotBlank(message = "Please provide a tag!")
+    @Size(max = 255, message = "Message too long (more than 255)")
     private String tag;
 
     @ManyToOne(fetch = FetchType.EAGER)
